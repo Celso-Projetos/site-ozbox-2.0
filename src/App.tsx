@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   CalendarCheck, MessageCircle, MapPin, Navigation, Share2, Copy, Check,
-  Dumbbell, Flame, HeartPulse, Users, ChevronDown,
+  Dumbbell, Flame, HeartPulse, Users, ChevronDown, ChevronLeft, ChevronRight, Star,
   Clock, Sparkles, ArrowRight, ArrowUpRight, Play, Pause, ShieldCheck, Zap,
   ClipboardList, Search, MousePointerClick, BadgeCheck, Smartphone, Eye, Gauge,
   Link2, Globe
@@ -44,6 +44,83 @@ function GoogleG({ className = "w-5 h-5" }: { className?: string }) {
       <path fill="#FBBC05" d="M5.2 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.7.4-2.4l-3.9-3C.5 8.2 0 10 0 12s.5 3.8 1.3 5.4l3.9-3z"/>
       <path fill="#EA4335" d="M12 4.7c1.8 0 3 .8 3.7 1.4l3.3-3.2C17.9 1.1 15.2 0 12 0 7.3 0 3.3 2.7 1.3 6.6l3.9 3c.9-2.8 3.6-4.9 6.8-4.9z"/>
     </svg>
+  );
+}
+
+const GOOGLE_REVIEWS = [
+  {
+    author: "Alzira Baldoni",
+    stars: 5,
+    quote: "Profissionais maravilhosos, equipamentos novos e ambiente impecável.",
+    url: "https://www.google.com/maps/reviews/data=!4m5!14m4!1m3!1m2!1s117505768830215680143!2s0x94cbc73afd94e90f:0x88e40b808906c06f",
+  },
+  {
+    author: "Darkwyllian Aquino",
+    stars: 5,
+    quote: "Estrutura top e professores muito qualificados.",
+    url: "https://www.google.com/maps/reviews/data=!4m5!14m4!1m3!1m2!1s104829320646126862408!2s0x94cbc73afd94e90f:0x88e40b808906c06f",
+  },
+  {
+    author: "Germania Santos Couto",
+    stars: 5,
+    quote: "Melhor box da região, excelente atendimento, treinos, materiais impecáveis.",
+    url: "https://www.google.com/maps/reviews/data=!4m5!14m4!1m3!1m2!1s111011534380773116634!2s0x94cbc73afd94e90f:0x88e40b808906c06f",
+  },
+];
+
+function GoogleReviews() {
+  const [index, setIndex] = useState(0);
+  const total = GOOGLE_REVIEWS.length;
+  const review = GOOGLE_REVIEWS[index];
+  const move = (direction: -1 | 1) => setIndex(current => (current + direction + total) % total);
+  const controlClass = "grid size-12 shrink-0 cursor-pointer place-items-center rounded-full border border-zinc-500 transition-colors hover:border-[#FFB800] hover:text-[#FFB800] active:bg-white/10";
+
+  return (
+    <section id="avaliacoes" aria-labelledby="avaliacoes-titulo" className="bg-zinc-950 border-y border-white/10 scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-16">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-[#FFB800] font-bold tracking-[.2em] text-xs flex items-center gap-2"><GoogleG className="w-4 h-4" /> AVALIAÇÕES NO GOOGLE</p>
+            <h2 id="avaliacoes-titulo" className="font-display font-black text-4xl sm:text-5xl mt-2">Veja o que dizem sobre a OzzyBox.</h2>
+          </div>
+          <a href={GOOGLE_PROFILE} target="_blank" rel="noreferrer" className="bg-white text-black font-bold px-4 py-3 min-h-12 rounded-xl inline-flex items-center gap-2 hover:bg-zinc-200 text-sm">
+            <GoogleG className="w-4 h-4" /> Ver todas no Google <ArrowUpRight aria-hidden="true" className="w-4 h-4" />
+          </a>
+        </div>
+
+        <div role="group" aria-roledescription="carrossel" aria-label="Comentários do Google" className="mt-7 rounded-3xl border border-white/10 bg-zinc-900 p-5 sm:p-8">
+          <div id="avaliacao-atual" aria-live="polite" aria-atomic="true">
+            <p className="sr-only">Avaliação {index + 1} de {total}</p>
+            <figure className="flex min-h-44 flex-col">
+              <p className="flex items-center gap-1 text-[#FFB800]">
+                <span className="sr-only">{review.stars} de 5 estrelas</span>
+                {Array.from({ length: 5 }, (_, star) => (
+                  <Star key={star} aria-hidden="true" className={`size-5 ${star < review.stars ? "fill-current" : ""}`} />
+                ))}
+              </p>
+              <blockquote cite={review.url} className="max-w-3xl py-4 text-lg leading-relaxed text-zinc-100 sm:text-2xl">
+                <p>“{review.quote}”</p>
+              </blockquote>
+              <figcaption className="mt-auto flex flex-wrap items-baseline gap-x-4">
+                <span className="font-bold">{review.author}</span>
+                <a href={review.url} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1.5 text-sm text-zinc-300 underline underline-offset-4 hover:text-[#FFB800]">
+                  Ver comentário original <ArrowUpRight aria-hidden="true" className="size-4" />
+                </a>
+              </figcaption>
+            </figure>
+          </div>
+          <div className="mt-4 flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+            <button type="button" onClick={() => move(-1)} aria-label="Avaliação anterior" aria-controls="avaliacao-atual" className={controlClass}>
+              <ChevronLeft aria-hidden="true" className="size-5" />
+            </button>
+            <span aria-hidden="true" className="text-sm tabular-nums text-zinc-300">{index + 1} / {total}</span>
+            <button type="button" onClick={() => move(1)} aria-label="Próxima avaliação" aria-controls="avaliacao-atual" className={controlClass}>
+              <ChevronRight aria-hidden="true" className="size-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -338,21 +415,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ===== AVALIAÇÕES ===== */}
-      <section id="avaliacoes" className="bg-zinc-950 border-y border-white/10 scroll-mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-16">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-[#FFB800] font-bold tracking-[.2em] text-xs flex items-center gap-2"><GoogleG className="w-4 h-4" /> AVALIAÇÕES NO GOOGLE</p>
-              <h2 className="font-display font-black text-4xl sm:text-5xl mt-2">Veja o que dizem sobre a OzzyBox.</h2>
-            </div>
-            <div className="flex items-center gap-2">
-              <a href={GOOGLE_PROFILE} target="_blank" rel="noreferrer" className="bg-white text-black font-bold px-4 py-3 rounded-xl inline-flex items-center gap-2 hover:bg-zinc-200 text-sm"><GoogleG className="w-4 h-4" /> Ver no Google <ArrowUpRight className="w-4 h-4" /></a>
-            </div>
-          </div>
-
-        </div>
-      </section>
+      <GoogleReviews />
 
       {/* ===== COMO CHEGAR ===== */}
       <section id="como-chegar" className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">

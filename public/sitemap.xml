@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Site de página única: apenas a home é uma URL indexável.
+       As seções (#planos, #experimental, #como-chegar) são âncoras da mesma
+       página e não entram no sitemap. -->
+  <url>
+    <loc>https://celso-projetos.github.io/site-ozbox-2.0/</loc>
+  </url>
+</urlset>

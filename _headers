@@ -1,0 +1,12 @@
+# Cabeçalhos de segurança — formato Netlify / Cloudflare Pages (_headers).
+# Em outra hospedagem, replique estas regras no servidor/CDN (ver ozzybox-v2/README.md).
+# A CSP entra como Report-Only para NÃO quebrar as integrações atuais
+# (Google Fonts, imagens Pexels, mapa do Google incorporado e scripts inline do build).
+# Após conferir os relatórios sem violações, pode ser promovida a Content-Security-Policy.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://images.pexels.com; frame-src https://www.google.com; connect-src 'self'; base-uri 'self'; form-action 'self'

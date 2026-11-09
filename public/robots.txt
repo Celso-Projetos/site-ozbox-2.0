@@ -1,0 +1,6 @@
+# OzzyBox — robots.txt
+# Produção: sem bloqueios indevidos. A página inicial é indexável.
+User-agent: *
+Allow: /
+
+Sitemap: https://celso-projetos.github.io/site-ozbox-2.0/sitemap.xml
